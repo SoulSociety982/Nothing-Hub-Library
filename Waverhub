@@ -218,7 +218,7 @@ function nurysium: init(name: string, is_draggable: boolean, parent)
     functions_frame.Name = "functions_frame"
     functions_frame.Parent = Background
     functions_frame.Active = true
-    functions_frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    functions_frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     functions_frame.BackgroundTransparency = 1.000
     functions_frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     functions_frame.BorderSizePixel = 0
