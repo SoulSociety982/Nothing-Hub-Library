@@ -139,7 +139,7 @@ function nurysium: init(name: string, is_draggable: boolean, parent)
 
     real_sections.Name = "real_sections"
     real_sections.Parent = Sections
-    real_sections.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    real_sections.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     real_sections.BackgroundTransparency = 1.000
     real_sections.BorderColor3 = Color3.fromRGB(0, 0, 0)
     real_sections.BorderSizePixel = 0
