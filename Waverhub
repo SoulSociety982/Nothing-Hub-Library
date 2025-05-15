@@ -127,7 +127,7 @@ function nurysium: init(name: string, is_draggable: boolean, parent)
 
     CornerFix.Name = "CornerFix"
     CornerFix.Parent = Sections
-    CornerFix.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    CornerFix.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     CornerFix.BorderColor3 = Color3.fromRGB(0, 0, 0)
     CornerFix.BorderSizePixel = 0
     CornerFix.Position = UDim2.new(0.918615103, 0, 0, 0)
