@@ -572,7 +572,7 @@ function library:CreateMain(title, description, keycode)
             Title_4.Size = UDim2.new(0, 101, 0, 21)
             Title_4.Font = Enum.Font.GothamSemibold
             Title_4.Text = text
-            Title_4.TextColor3 =  theme.TextColor
+            Title_4.TextColor3 = theme.TextColor
             Title_4.TextSize = 14.000
             Title_4.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -597,7 +597,7 @@ function library:CreateMain(title, description, keycode)
             Value.ZIndex = 2
             Value.Font = Enum.Font.GothamSemibold
             Value.Text = ""
-            Value.TextColor3 =  theme.TextColor
+            Value.TextColor3 = theme.TextColor
             Value.TextSize = 10.000
             Value.TextStrokeTransparency = 0.000
             Value.TextStrokeColor3 = theme.Darkness
@@ -625,6 +625,7 @@ function library:CreateMain(title, description, keycode)
 			SliderBar.InputBegan:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseButton1 then
 					dragging = true
+					library4:SetValue(input)
 				end
 			end)
 
@@ -634,15 +635,15 @@ function library:CreateMain(title, description, keycode)
 				end
 			end)
 
-			SliderBar.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 then
-					library4:SetValue(input)
-				end
-			end)
-
 			UIS.InputChanged:Connect(function(input)
 				if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-					library4:SetValue(input)
+					local posX = math.clamp((input.Position.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
+					local pos = UDim2.new(posX, 0, 0, SliderBar.AbsoluteSize.Y)
+					Slider_2:TweenSize(pos, Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+					local value = math.floor((posX * (max - min) + min))
+					Value.Text = tostring(value)
+					library4["Value"] = value
+					spawn(function() callback(value) end)
 				end
 			end)
 
