@@ -1,0 +1,64 @@
+local Remotes = {}
+local Parry_Key = nil
+if not LPH_OBFUSCATED then
+    function LPH_JIT(Function) return Function end
+    function LPH_JIT_MAX(Function) return Function end
+    function LPH_NO_VIRTUALIZE(Function) return Function end
+end
+
+local PropertyChangeOrder = {}
+
+local HashOne
+local HashTwo
+local HashThree
+
+LPH_NO_VIRTUALIZE(function()
+    for Index, Value in next, getgc() do
+        if rawequal(typeof(Value), "function") and islclosure(Value) and getrenv().debug.info(Value, "s"):find("SwordsController") then
+            if rawequal(getrenv().debug.info(Value, "l"), 276) then
+                HashOne = getconstant(Value, 62)
+                HashTwo = getconstant(Value, 64)
+                HashThree = getconstant(Value, 65)
+            end
+        end 
+    end
+end)()
+
+
+LPH_NO_VIRTUALIZE(function()
+    for Index, Object in next, game:GetDescendants() do
+        if Object:IsA("RemoteEvent") and string.find(Object.Name, "\n") then
+            Object.Changed:Once(function()
+                table.insert(PropertyChangeOrder, Object)
+            end)
+        end
+    end
+end)()
+
+
+repeat
+    task.wait()
+until #PropertyChangeOrder == 3
+
+
+local ShouldPlayerJump = PropertyChangeOrder[1]
+local MainRemote = PropertyChangeOrder[2]
+local GetOpponentPosition = PropertyChangeOrder[3]
+
+local Parry_Key
+
+for Index, Value in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Block.Activated)) do
+    if Value and Value.Function and not iscclosure(Value.Function)  then
+        for Index2,Value2 in pairs(getupvalues(Value.Function)) do
+            if type(Value2) == "function" then
+                Parry_Key = getupvalue(getupvalue(Value2, 2), 17);
+            end;
+        end;
+    end;
+end;
+
+local function Parry(...)
+    ShouldPlayerJump:FireServer(HashOne, Parry_Key, ...)
+    MainRemote:FireServer(HashTwo, Parry_Key, ...)
+    GetOpponentPosition:FireServer(HashThree, Parry_Key, ...)
+end
